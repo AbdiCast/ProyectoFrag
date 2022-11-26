@@ -1,0 +1,26 @@
+PROYECTODE FRAGMENTACIÓN HORIZONTAL
+Instrucciones:
+1.Considerando el modelo relacional de la base de datos AdventureWorks.
+2.Genere una copia de seguridad de la base de datos y restáurelaen dos instancias de SQL Server diferente a donde se generó la copia de seguridad, 
+de tal forma que en total se tengan 3 instancias SQL Server. Para efectos deprueba en el laboratorio de Telemática II, se puede acceder a diferentes 
+equipos que ya cuenten con la base de datos.
+3.Considerando las 3 instancias del punto anterior, seleccione y de preferencia utilice un nombre representativo de los esquemas que se accederán en 
+cada instancia. Por ejemplo: En la instancia 1, al restaurar la base de datos puede asignar el nombresalesAW para referir que esta instancia solamente 
+se utilizará para acceder a los datos del esquema Sales. En la instancia 2, al restaurar la base de datos puede asignar el nombre productionAW para 
+referir que esta instancia solamente se utilizará para acceder a los datos del esquema Production y por último, en la instancia 3, al restaurar la base 
+de datos puede asignar el nombre otrosAW para referir que se accederán a los esquemas restantes de la base de datos.
+4.Se debe programar los objetos de bases de datos necesarios para implementar lasrelaciones de FK y garantizar la integridad de datos entre las tablas 
+que se accedan de las bases de datos salesAW, productionAW y otrosAW.
+5.Al implementar las siguientes consultas, se debe acceder solamente a la(s)base(s) dedato(s)  necesarias  para  resolver  cada  consulta. Para  ello, 
+se  debe  configurar  los servidores vinculados necesarios:a.Determinarel total de las ventas delos productos con la categoría que se provea de argumento 
+de entrada en la consulta,para cada uno de los territorios registrados en la base de datos.b.Determinar el producto mássolicitado para la región (atributo 
+group de salesterritory)“Noth America”y en que territorio de la región tiene mayor demanda.c.Actualizar el stock disponibleen un 5%delos productos de la 
+categoría que se provea como argumento de entradaen una localidad que se provea como entrada en la instrucción de actualización..d.Determinar si hay 
+clientes que realizan ordenes en territorios diferentes al que se encuentran. e.Actualizar  la  cantidad  de  productos  de  una  ordenque  seprovea  
+como argumento en la instrucción de actualización.f.Actualizar el métodode envío de una orden que se reciba como argumento en la instrucción de actualización.
+g.Actualizar el correo electrónico de una cliente que se reciba como argumento en la instrucción de actualización.876 8761 0853
+Desarrollar una aplicaciónen el lenguaje de programación de su elección que permita ejecutar las consultas del punto 5 en la instanciaque corresponda.
+Se debe accedera la instanciao instancias en donde se encuentran losdatos.Adicional a la aplicación,se puede solicitar en la revisión del 
+proyectolaprogramación de consultas desde el gestor de bases de datos a las diferentes instancias.
+
+Fecha de entrega: 25 de noviembre de 2022Entregar: repositorio en GitHub del proyecto,en donde se observe la colaboración de los integrantes delproyecto.
