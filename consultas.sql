@@ -107,30 +107,37 @@ END
 	 * */
 
 
-/*
-	 * Determinar si hay clientes que realizan ordenes en territorios diferentes al que se encuentran. 
-	 * */
+/*Ejercicio 5-c
+Actualizar el stock disponible en un 5% de los productos de la categoría que se 
+provea como argumento de entrada en una localidad que se provea como 
+entrada en la instrucción de actualización.*/
+CREATE OR ALTER PROCEDURE ActuStock @CAT nvarchar(25) AS
+BEGIN 
+DECLARE @PID int;
+set @PID = (SELECT ProductID FROM [LINKED-PRODUCTION].productionAW.Production.ProductInventory PRID WHERE
+PRID.LocationID in(SELECT ProductID FROM [LINKED-PRODUCTION].productionAW.Production.ProductSubcategory WHERE ProductCategoryID = @CAT));
+update [LINKED-PRODUCTION].productionAW.Production.ProductInventory set Quantity = Quantity*1.05 WHERE ProductID = @PID;
+END
 
-CREATE PROCEDURE sp_CustomerDiferrentOrder  
-AS 
-SELECT
-	c.TerritoryID as Territorio_Cliente,
-	soh.TerritoryID as Territorio_Orden
-FROM
-	AdventureWorks2019.Sales.Customer c
-inner join 
-	AdventureWorks2019.Sales.SalesOrderHeader soh 
-	on
-	c.CustomerID != soh.CustomerID
-GROUP by
-	c.TerritoryID,
-	soh.TerritoryID 
 
-/*
-	 * Actualizar  la  cantidad  de  productos  de  una  orden que  se provea  como argumento en la 
-	 * instrucción de actualización.
-	 * NOTA: Lista la cantidad de productos, nombre y el ID de la Orden de venta
-	 * */
+
+/*Ejercicio 5-d
+Determinar si hay clientes que realizan ordenes en territorios diferentes al que 
+se encuentran.*/
+CREATE OR ALTER PROCEDURE DiferentesTerritorios AS
+BEGIN
+SELECT SACU.TerritoryID as TerritorioC, SAOH.TerritoryID as TerritorioO, SATE.[Name] as Territorio
+FROM [LINKED-SALES].salesAW.Sales.Customer SACU
+INNER JOIN [LINKED-SALES].salesAW.Sales.SalesOrderHeader SAOH ON SACU.AccountNumber != SAOH.AccountNumber
+INNER JOIN [LINKED-SALES].salesAW.Sales.SalesTerritory SATE ON SACU.TerritoryID = SAOH.TerritoryID
+GROUP BY SACU.TerritoryID, SAOH.TerritoryID, SATE.[Name]
+END
+
+
+
+
+
+ 
 
 CREATE PROCEDURE sp_OrderQtyUpdate @p_SalesOrderID int,
 @p_OrderQty int
