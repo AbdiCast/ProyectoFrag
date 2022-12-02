@@ -136,75 +136,77 @@ END
 
 
 
-
+/*Ejercicio 5-e
+Actualiza la cantidad de productos de una orden que se provea como argumeto en la instrucción de actualización.
+			select * from sales.SalesOrderDetail
+			exec sp_OrderQtyUpdate 43659,  4
+cantidadDeProductos, orden*/
  
 
-CREATE PROCEDURE sp_OrderQtyUpdate @p_SalesOrderID int,
-@p_OrderQty int
+create PROCEDURE sp_OrderQtyUpdate @p_SalesOrderID int, @p_OrderQty int
 AS
 BEGIN
-	IF EXISTS (
-	SELECT
-		sod.OrderQty as Cantidad_Productos,
-		p.Name as Nombre_Producto,
-		sod.SalesOrderID
-	FROM
-		AdventureWorks2019.Sales.SalesOrderDetail sod
-	inner join AdventureWorks2019.Production.Product p 
-	on
-		sod.ProductID = p.ProductID
-		and sod.SalesOrderID = @p_SalesOrderID
-	) 
-		update AdventureWorks2019.Sales.SalesOrderDetail set OrderQty = @p_OrderQty where SalesOrderID = @p_SalesOrderID
-ELSE 
-	PRINT 'No se pudo actualizar'
+	IF EXISTS (--cantidadDeProductos, producto, orden
+		SELECT sod.OrderQty as Cantidad_Productos, p.[Name] as Nombre_Producto, sod.SalesOrderID 
+		FROM AdventureWorks2019_1.Sales.SalesOrderDetail sod
+		inner join 
+		AdventureWorks2019_1.Production.Product p 
+		on
+		sod.ProductID = p.ProductID and 
+		sod.SalesOrderID = @p_SalesOrderID
+		) 
+			update AdventureWorks2019_1.Sales.SalesOrderDetail set OrderQty = @p_OrderQty where SalesOrderID = @p_SalesOrderID
+	ELSE 
+		PRINT 'No se pudo actualizar'
 END
 	
 
-/*
+/*Ejercicio 5-f
 	 * Actualizar el método de envío de una orden que se reciba como argumento en la instrucción de actualización.
 	 * NOTA: Lista todas las ordenenes dependiendo el metodo de envio
+
+	 Actualizar
+	 metodoDeEnvio, orden: listar las ordenes del metodo de envio
 	 * */	
 	
-CREATE PROCEDURE sp_shipMethodUpdate @p_SalesOrderID int,
-@p_ShipMethodID int
+create PROCEDURE sp_shipMethodUpdate @p_SalesOrderID int, @p_ShipMethodID int
 AS
 BEGIN 
-	IF EXISTS (
-	SELECT
-		sm.Name as Metodo_Envio,
-		sm.ShipMethodID as ID_Metodo,
-		soh.ShipMethodID as ID_Metodo_Seleccionado,
-		soh.SalesOrderID
-	FROM
-		AdventureWorks2019.Sales.SalesOrderHeader soh
-	inner join AdventureWorks2019.Purchasing.ShipMethod sm 
-	on
+	IF EXISTS (-- metodoDeEnvio, orden
+		SELECT sm.[Name] as Metodo_Envio, sm.ShipMethodID as ID_Metodo, soh.ShipMethodID as ID_Metodo_Seleccionado, soh.SalesOrderID
+		FROM
+			AdventureWorks2019_1.Sales.SalesOrderHeader soh
+		inner join 
+		AdventureWorks2019_1.Purchasing.ShipMethod sm 
+		on
 		soh.ShipMethodID = sm.ShipMethodID
-	where
-		soh.SalesOrderID = @p_SalesOrderID
+		where soh.SalesOrderID = @p_SalesOrderID
 	)
-	UPDATE AdventureWorks2019.Sales.SalesOrderHeader set ShipMethodID = @p_ShipMethodID WHERE SalesOrderID = @p_SalesOrderID
+	UPDATE AdventureWorks2019_1.Sales.SalesOrderHeader set ShipMethodID = @p_ShipMethodID WHERE SalesOrderID = @p_SalesOrderID
 	ELSE 
 		PRINT 'No se pudo actualizar'
 END
 
-/*
+/*Ejercicio 5-g
 	 * Actualizar el correo electrónico de una cliente que se reciba como argumento en la instrucción de actualización.
 	 * NOTA: Lista a la persona y su correElectronico, parametrizar por correo electronico, en lugar de BusinessEntityID
+
+	 actualiza: correoDeCliente
 	 * */
 
-ALTER PROCEDURE sp_emailAddressUpdate @p_EmailAddressOld nvarchar(50),@p_EmailAddressNew nvarchar(50)
+create PROCEDURE sp_emailAddressUpdate @p_EmailAddressOld nvarchar(50),@p_EmailAddressNew nvarchar(50)
 AS 
 BEGIN 
 	IF EXISTS (
 		SELECT p.FirstName as Nombre, ea.EmailAddress as Email
-	FROM AdventureWorks2019.Person.Person p 
-	inner join AdventureWorks2019.Person.EmailAddress ea 
-	on p.BusinessEntityID = ea.BusinessEntityID 
+		FROM AdventureWorks2019_1.Person.Person p 
+		inner join 
+		AdventureWorks2019_1.Person.EmailAddress ea 
+		on 
+		p.BusinessEntityID = ea.BusinessEntityID 
 	where ea.EmailAddress = @p_EmailAddressOld
 	)
-	UPDATE AdventureWorks2019.Person.EmailAddress set EmailAddress = @p_EmailAddressNew WHERE EmailAddressID = @p_EmailAddressOld
+	UPDATE AdventureWorks2019_1.Person.EmailAddress set EmailAddress = @p_EmailAddressNew WHERE EmailAddressID = @p_EmailAddressOld
 	ELSE 
 		PRINT 'No se pudo actualizar'
 	
